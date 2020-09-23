@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Allmoxy Small Coding Project</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="main.css">
+<script src="product.riot" type="riot"></script>
+<script src="https://cdn.jsdelivr.net/npm/riot@4/riot+compiler.min.js"></script>
+</head>
+
+<body>
+
+<table>
+<caption>Product Grid</caption>
+
+<thead>
+<tr>
+<th>Title</th>
+<th>Description</th>
+<th>Price</th>
+<th>Quantity</th>
+<th>Image</th>
+</tr>
+</thead>
+
+<tbody>
+<tr is='product'></tr>
+</tbody>
+
+</table>
+
+<script>
+riot.compile().then
+(
+() =>
+{
+riot.mount('[is="product"]')
+}
+)
+</script>
+
+</body>
+
+</html>
