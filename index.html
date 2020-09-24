@@ -5,6 +5,7 @@
 <title>Allmoxy Small Coding Project</title>
 <meta charset="utf-8">
 <link rel="stylesheet" href="main.css">
+<script src="main.js"></script>
 <script src="product.riot" type="riot"></script>
 <script src="node_modules/riot/riot+compiler.min.js"></script>
 </head>
@@ -16,10 +17,10 @@
 
 <thead>
 <tr>
-<th>Title</th>
-<th>Description</th>
-<th>Price</th>
-<th>Quantity</th>
+<th>Title <span class="ptr" onclick="sort('title')">&#9651</span><span class="ptr" onclick="sort('title', true)">&#9661</span></th>
+<th>Description <span class="ptr" onclick="sort('desc')">&#9651</span><span class="ptr" onclick="sort('desc', true)">&#9661</span></th>
+<th>Price <span class="ptr" onclick="sort('price')">&#9651</span><span class="ptr" onclick="sort('price', true)">&#9661</span></th>
+<th>Quantity <span class="ptr" onclick="sort('quant')">&#9651</span><span class="ptr" onclick="sort('quant', true)">&#9661</span></th>
 <th>Image</th>
 </tr>
 </thead>
@@ -27,15 +28,18 @@
 <tbody>
 <tr is='product' id="bob"></tr>
 <tr is='product' id="dora"></tr>
+<tr is='product' id="barney"></tr>
+<tr is='product' id="oscar"></tr>
+<tr is='product' id="courage"></tr>
 </tbody>
 
 <tfoot>
 <tr>
-<td><input type="text" id="new-title"></td>
-<td><input type="text" id="new-desc"></td>
-<td><input type="number" id="new-price"></td>
-<td><input type="number" id="new-quant"></td>
-<td><input type="file" id="new-img"></td>
+<td><input type="text" id="add-title"></td>
+<td><input type="text" id="add-desc"></td>
+<td><input type="number" id="add-price"></td>
+<td><input type="number" id="add-quant"></td>
+<td><input type="file" id="add-img"></td>
 <td><input type="button" value="Add item" onclick="addItem()"></td>
 </tr>
 </tfoot>
@@ -49,28 +53,79 @@ riot.compile().then
 () =>
 {
 
+products.push
+(
 riot.mount
 (
 '[is="product"]#bob', 
 {
 title: 'Bob',
-desc: 'Bob is a builder.',
+desc: 'Builder named Bob.',
 price: 49.50,
 quant: 5,
 img: 'https://i.ytimg.com/vi/8kFfHnre85o/maxresdefault.jpg'
 }
+)[0]
 )
 
+products.push
+(
 riot.mount
 (
 '[is="product"]#dora', 
 {
 title: 'Dora',
-desc: 'Dora is an explorer.',
+desc: 'Explorer named Dora.',
 price: 34.80,
 quant: 1,
 img: 'https://i.ytimg.com/vi/wFHmzmOUg3w/maxresdefault.jpg'
 }
+)[0]
+)
+
+products.push
+(
+riot.mount
+(
+'[is="product"]#barney', 
+{
+title: 'Barney',
+desc: 'Dinosaur named Barney.',
+price: 3.80,
+quant: 0,
+img: 'https://i.ytimg.com/vi/VAMzVFfx21M/hqdefault.jpg'
+}
+)[0]
+)
+
+products.push
+(
+riot.mount
+(
+'[is="product"]#oscar', 
+{
+title: 'Oscar',
+desc: 'Grouch named Oscar.',
+price: 233,
+quant: 10,
+img: 'https://i.ytimg.com/vi/bwYuSIlb9ck/hqdefault.jpg'
+}
+)[0]
+)
+
+products.push
+(
+riot.mount
+(
+'[is="product"]#courage', 
+{
+title: 'Courage',
+desc: 'Cowardly dog named Courage.',
+price: 123.99,
+quant: 34,
+img: 'https://i.ytimg.com/vi/cd8DAerKxUA/maxresdefault.jpg'
+}
+)[0]
 )
 
 }
@@ -79,16 +134,19 @@ img: 'https://i.ytimg.com/vi/wFHmzmOUg3w/maxresdefault.jpg'
 </script>
 
 <script>
-const newTitle = document.querySelector('#new-title')
-const newDesc = document.querySelector('#new-desc')
-const newPrice = document.querySelector('#new-price')
-const newQuant = document.querySelector('#new-quant')
-const newImg = document.querySelector('#new-img')
+const newTitle = document.querySelector('#add-title')
+const newDesc = document.querySelector('#add-desc')
+const newPrice = document.querySelector('#add-price')
+const newQuant = document.querySelector('#add-quant')
+const newImg = document.querySelector('#add-img')
 
 function addItem()
 {
+if (!(newTitle.value && newDesc.value && newPrice.value && newQuant.value && newImg.files[0])) return
 let row = document.querySelector('tbody').insertRow()
 row.setAttribute('is', 'product')
+products.push
+(
 riot.mount
 (
 '[is="product"]:last-child', 
@@ -99,7 +157,9 @@ price: newPrice.value,
 quant: newQuant.value,
 img: URL.createObjectURL(newImg.files[0])
 }
+)[0]
 )
+
 //clear fields
 newTitle.value = null
 newDesc.value = null
