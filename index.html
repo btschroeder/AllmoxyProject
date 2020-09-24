@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <link rel="stylesheet" href="main.css">
 <script src="product.riot" type="riot"></script>
-<script src="https://cdn.jsdelivr.net/npm/riot@4/riot+compiler.min.js"></script>
+<script src="node_modules/riot/riot+compiler.min.js"></script>
 </head>
 
 <body>
@@ -25,19 +25,88 @@
 </thead>
 
 <tbody>
-<tr is='product'></tr>
+<tr is='product' id="bob"></tr>
+<tr is='product' id="dora"></tr>
 </tbody>
+
+<tfoot>
+<tr>
+<td><input type="text" id="new-title"></td>
+<td><input type="text" id="new-desc"></td>
+<td><input type="number" id="new-price"></td>
+<td><input type="number" id="new-quant"></td>
+<td><input type="file" id="new-img"></td>
+<td><input type="button" value="Add item" onclick="addItem()"></td>
+</tr>
+</tfoot>
 
 </table>
 
 <script>
 riot.compile().then
 (
+
 () =>
 {
-riot.mount('[is="product"]')
+
+riot.mount
+(
+'[is="product"]#bob', 
+{
+title: 'Bob',
+desc: 'Bob is a builder.',
+price: 49.50,
+quant: 5,
+img: 'https://i.ytimg.com/vi/8kFfHnre85o/maxresdefault.jpg'
 }
 )
+
+riot.mount
+(
+'[is="product"]#dora', 
+{
+title: 'Dora',
+desc: 'Dora is an explorer.',
+price: 34.80,
+quant: 1,
+img: 'https://i.ytimg.com/vi/wFHmzmOUg3w/maxresdefault.jpg'
+}
+)
+
+}
+
+)
+</script>
+
+<script>
+const newTitle = document.querySelector('#new-title')
+const newDesc = document.querySelector('#new-desc')
+const newPrice = document.querySelector('#new-price')
+const newQuant = document.querySelector('#new-quant')
+const newImg = document.querySelector('#new-img')
+
+function addItem()
+{
+let row = document.querySelector('tbody').insertRow()
+row.setAttribute('is', 'product')
+riot.mount
+(
+'[is="product"]:last-child', 
+{
+title: newTitle.value,
+desc: newDesc.value,
+price: newPrice.value,
+quant: newQuant.value,
+img: URL.createObjectURL(newImg.files[0])
+}
+)
+//clear fields
+newTitle.value = null
+newDesc.value = null
+newPrice.value = null
+newQuant.value = null
+newImg.value = null
+}
 </script>
 
 </body>

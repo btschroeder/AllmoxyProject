@@ -1,7 +1,77 @@
 <product>
-<td>Bob</td>
-<td>Bob is a builder.</td>
-<td>$100.00</td>
-<td>5</td>
-<td><div style="width:100px;height:100px;background:red;"></div></td>
+<td hidden={ editing }>{state.title}</td>
+<td hidden={ editing }>{state.desc}</td>
+<td hidden={ editing }>${state.price}</td>
+<td hidden={ editing }>{state.quant}</td>
+<td hidden={ editing }><img src="{state.img}" style="width:100px;height:100px;"/></td>
+<td hidden={ editing }><input type="button" value="Edit item" onclick={ edit }></td>
+
+<!-- input fields to do changes show/hide-->
+<td hidden={ !editing }><input id="new-title" type="text" value={ state.title }></td>
+<td hidden={ !editing }><input id="new-desc" type="text" value={ state.desc }></td>
+<td hidden={ !editing }><input id="new-price" type="number" value={this.state.price}></td>
+<td hidden={ !editing }><input id="new-quant" type="number" value={this.state.quant}></td>
+<td hidden={ !editing }>
+<img src="{state.img}" style="width:100px;height:100px;"/>
+<br>
+<input id="new-img" type="file">
+</td>
+<td hidden={ !editing }><input id="save" type="button" value="Save changes" onclick={ save }></td>
+<td hidden={ !editing }><input id="discard" type="button" value="Discard changes" onclick={ discard }></td>
+
+
+
+<script>
+
+export default
+{
+
+onBeforeMount (props, state)
+{
+this.state = 
+{
+title: props.title,
+desc: props.desc,
+price: props.price,
+quant: props.quant,
+img: props.img
+}
+},
+
+edit(e)
+{
+this.editing = true
+this.update()
+},
+
+save(e)
+{
+this.editing = false
+this.update
+(
+{
+title: this.$('#new-title').value,
+desc: this.$('#new-desc').value,
+price: this.$('#new-price').value,
+quant: this.$('#new-quant').value,
+img: this.$('#new-img').files[0]? URL.createObjectURL(this.$('#new-img').files[0]) : this.state.img,
+}
+)
+},
+
+discard(e)
+{
+this.editing = false
+this.$('#new-title').value = this.state.title
+this.$('#new-desc').value = this.state.desc
+this.$('#new-price').value = this.state.price
+this.$('#new-quant').value = this.state.quant
+this.$('#new-img').value = null
+this.update()
+}
+
+}
+
+</script>
+
 </product>

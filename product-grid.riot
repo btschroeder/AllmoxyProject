@@ -1,0 +1,31 @@
+<product-grid>
+<table>
+<caption>Product Grid</caption>
+
+<thead>
+<tr>
+<th>Title</th>
+<th>Description</th>
+<th>Price</th>
+<th>Quantity</th>
+<th>Image</th>
+</tr>
+</thead>
+
+<tbody>
+<tr is="product" each={item in state.items}></tr>
+</tbody>
+
+<tfoot>
+<tr>
+<td><input type="text" id="new-title"></td>
+<td><input type="text" id="new-desc"></td>
+<td><input type="number id="new-price"></td>
+<td><input type="number" id="new-quant"></td>
+<td><input type="file" id="new-img"></td>
+<td><input type="button" value="Add item" onclick="addItem()"></td>
+</tr>
+</tfoot>
+
+</table>
+</product-grid>
